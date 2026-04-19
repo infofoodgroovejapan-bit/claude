@@ -3,7 +3,7 @@ name: Food Wellbeing Weekly Automation
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 1 * * 1'
+    - cron: '0 0 * * 1'
 
 jobs:
   run-automation:
@@ -19,4 +19,5 @@ jobs:
       - name: Run automation
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python main.py "週次ウェルビーイング自動化: 最新ウェルビーイング記事をウェブ検索で収集し、Canvaでレポートスライドを6枚生成し、SNS投稿5件(月:学び型/火:4コマ漫画/水:Tips/木:4コマ漫画/金:告知)とCanva画像を作成し、note記事ドラフトをGitHubに保存し、Gmailでダイジェストを配信してください"
+        run: |
+          python main.py "Weekly wellbeing automation: search web for latest wellbeing articles, generate 6 Canva report slides, create 5 SNS posts with Canva images, save note article draft to GitHub, send Gmail digest"
