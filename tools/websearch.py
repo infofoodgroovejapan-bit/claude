@@ -73,15 +73,28 @@ def execute_tool(tool_name: str, tool_input: dict) -> str:
 
 def _web_search(query: str, max_results: int, region: str) -> str:
     try:
-        from duckduckgo_search import DDGS
+        import warnings
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            try:
+                from ddgs import DDGS
+            except ImportError:
+                from duckduckgo_search import DDGS  # type: ignore[no-redef]
 
         results: list[str] = []
         with DDGS() as ddgs:
-            for r in ddgs.text(query, region=region, max_results=max_results):
-                results.append(f"**{r['title']}**\nURL: {r['href']}\n{r['body']}")
-        return "\n\n---\n\n".join(results) if results else "検索結果が見つかりませんでした。"
+            for backend in ("html", "lite", "auto"):
+                try:
+                    hits = ddgs.text(query, region=region, max_results=max_results, backend=backend)
+                    if hits:
+                        results = [f"**{r['title']}**\nURL: {r['href']}\n{r['body']}" for r in hits]
+                        break
+                except Exception:
+                    continue
+        return "\n\n---\n\n".join(results) if results else "検索結果が見つかりませんでした（ネットワーク制限の可能性があります）。"
     except ImportError:
-        return "[web_search] duckduckgo-search パッケージがインストールされていません。"
+        return "[web_search] ddgs パッケージがインストールされていません。pip install ddgs を実行してください。"
     except Exception as e:
         return f"[web_search エラー] {e}"
 
