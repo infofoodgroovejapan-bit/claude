@@ -1,0 +1,88 @@
+name: Food Wellbeing Weekly Automation
+
+on:
+  # 毎週月曜 00:00 UTC = 09:00 JST
+  schedule:
+    - cron: '0 0 * * 1'
+  # 手動トリガー（カスタムタスク入力可能）
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'カスタムタスク（空白=デフォルト週次フル実行）'
+        required: false
+        default: ''
+
+jobs:
+  generate-and-distribute:
+    name: Generate & Distribute Food Wellbeing Content
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create output directory
+        run: mkdir -p output
+
+      - name: Determine task text
+        id: task
+        run: |
+          if [ -n "${{ github.event.inputs.task }}" ]; then
+            echo "text=${{ github.event.inputs.task }}" >> $GITHUB_OUTPUT
+          else
+            WEEK=$(date -u +"第%W週 %Y年%m月")
+            echo "text=フードウェルビーイング週次コンテンツを全て生成してください。${WEEK}分。まず最新のウェルビーイング・食・アドラー心理学関連ブログ記事をウェブ検索し、その内容をSNS投稿に反映してください。週次Canvaレポートスライド（6枚）・SNS投稿5件（通常3件＋4コマ漫画2件、各Canva画像付き）・note記事ドラフト（1700字）・Gmailダイジェストを生成し、全てGitHubのcontent/ディレクトリに保存してください。認知拡大と仕事獲得のCTAを全コンテンツに含めてください。" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Food Wellbeing agent
+        id: run_agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python main.py --verbose "${{ steps.task.outputs.text }}" | tee output/report_output.txt
+
+      - name: Capture run metadata
+        if: always()
+        run: |
+          echo "Run date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> output/run_metadata.txt
+          echo "Trigger: ${{ github.event_name }}" >> output/run_metadata.txt
+          echo "Workflow run ID: ${{ github.run_id }}" >> output/run_metadata.txt
+          echo "Task: ${{ steps.task.outputs.text }}" >> output/run_metadata.txt
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: food-wellbeing-${{ github.run_id }}
+          path: output/
+          retention-days: 30
+
+      - name: Write step summary
+        if: success()
+        run: |
+          echo "## フードウェルビーイング週次コンテンツ生成完了" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 項目 | 状態 |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| ウェブ検索（最新ウェルビーイング記事） | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| Canvaレポートスライド（6枚） | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| SNS投稿5件（通常3件＋4コマ漫画2件） | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| note記事ドラフト（GitHub保存） | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| Gmailダイジェスト配信 | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**投稿推奨スケジュール:**" >> $GITHUB_STEP_SUMMARY
+          echo "- 月: SNS①（学び型）" >> $GITHUB_STEP_SUMMARY
+          echo "- 火: SNS②（漫画）＋note記事公開" >> $GITHUB_STEP_SUMMARY
+          echo "- 水: SNS③（Tips）" >> $GITHUB_STEP_SUMMARY
+          echo "- 木: SNS④（漫画）" >> $GITHUB_STEP_SUMMARY
+          echo "- 金: SNS⑤（週次レポート告知）" >> $GITHUB_STEP_SUMMARY

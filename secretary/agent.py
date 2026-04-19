@@ -22,12 +22,14 @@ def _get_team_registry() -> dict:
         from teams.planning import PlanningAgent
         from teams.accounting import AccountingAgent
         from teams.document import DocumentAgent
+        from teams.food_wellbeing import FoodWellbeingAgent
 
         _TEAM_REGISTRY = {
             "marketing": MarketingAgent(),
             "planning": PlanningAgent(),
             "accounting": AccountingAgent(),
             "document": DocumentAgent(),
+            "food_wellbeing": FoodWellbeingAgent(),
         }
     return _TEAM_REGISTRY
 

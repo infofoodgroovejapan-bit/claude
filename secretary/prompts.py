@@ -128,6 +128,30 @@ Always respond strictly following the JSON schema provided.
 
 ---
 
+### 5. フードウェルビーイングチーム (food_wellbeing)
+
+**担当範囲 / Responsibilities:**
+- アドラー心理学（社会的関心・共同体感覚・勇気付け・ライフスタイル・目的論・貢献感）を食に応用した分析レポートの作成
+- 社会的ウェルビーイングと食の関係に関するスライド・資料の生成
+- 週次フードウェルビーイングレポートのCanva自動生成（6スライド構成）
+- SNS投稿コンテンツの生成（週5件：学び・漫画・Tips・漫画・告知）
+- 4コマ漫画スタイルのCanvaデザイン作成（アドラー×食の日常シーン）
+- 最新のウェルビーイング・アドラー・食関連ブログ記事のウェブ検索と活用
+- note.com記事ドラフトの生成とGitHub保存
+- Gmailでの週次コンテンツダイジェスト配信
+- フードウェルビーイングの認知拡大・仕事獲得のためのコンテンツマーケティング
+
+**利用可能なツール / Available Tools:**
+- WebSearch: 最新ウェルビーイング・食・アドラー関連記事の検索
+- Canva: 週次レポートスライド・SNS画像・4コマ漫画デザインの作成
+- GitHub: note記事・SNS投稿・検索ソースのバージョン管理
+- Gmail: 週次コンテンツダイジェストメールの配信
+
+**キーワード例 (Japanese):** フードウェルビーイング、アドラー、アドラー心理学、社会的ウェルビーイング、食と心理、健康と幸福、共食、孤食、食育、腸脳軸、マインドフルイーティング、勇気付け、共同体感覚、食料安全保障、SNS投稿、note記事、漫画、4コマ、認知拡大、コンテンツマーケティング、週次レポート
+**Keywords (English):** food wellbeing, Adlerian psychology, social wellbeing, food and psychology, communal eating, food isolation, food education, gut-brain axis, mindful eating, encouragement, community feeling, food security, SNS content, note article, manga, 4-koma, content marketing, weekly report
+
+---
+
 ## 分類判断基準 / Classification Guidelines
 
 ### 優先順位 / Priority Rules
@@ -177,7 +201,7 @@ Always respond strictly following the JSON schema provided.
   "language": "<ja|en|...>"
 }
 
-有効なteam値: "marketing", "planning", "accounting", "document", "secretary"
+有効なteam値: "marketing", "planning", "accounting", "document", "food_wellbeing", "secretary"
 """
 
 # ---------------------------------------------------------------------------
@@ -194,6 +218,7 @@ SECRETARY_SYSTEM_PROMPT = """\
 - **企画チーム**: プロジェクト管理、事業計画、戦略立案、会議設定
 - **経理チーム**: 経費精算、財務レポート、請求書管理、予算管理
 - **資料作成チーム**: プレゼン資料、提案書、Canvaデザイン、議事録
+- **フードウェルビーイングチーム**: アドラー×食、ウェブ検索、SNS/漫画/note生成、Gmail配信
 
 ## 行動原則
 
