@@ -96,6 +96,8 @@ def main() -> None:
   python main.py --verbose "新製品の企画書を作って"
   python main.py --verbose "今月の経費精算レポートを経理担当に送って"
   python main.py --verbose "新商品発表のプレゼン資料を作って"
+  python main.py --pdf survey.pdf "アンケートからウェルビーイングを分析してください"
+  python main.py --pdf q1.pdf --pdf q2.pdf "ウェルビーイングのトレンド分析をして"
   echo "Q3の売上レポートを作成して" | python main.py
   python main.py --interactive
 """,
@@ -114,6 +116,18 @@ def main() -> None:
         "--interactive", "-i",
         action="store_true",
         help="対話モード（複数タスクを連続して入力できます）",
+    )
+    parser.add_argument(
+        "--pdf",
+        metavar="FILE",
+        action="append",
+        dest="pdf_paths",
+        default=None,
+        help=(
+            "添付するPDFファイルのパス（複数指定可） / "
+            "Path to a PDF file to attach (repeatable). "
+            "Example: --pdf survey1.pdf --pdf survey2.pdf"
+        ),
     )
 
     args = parser.parse_args()
@@ -136,7 +150,23 @@ def main() -> None:
         print("エラー: タスクが指定されていません。", file=sys.stderr)
         sys.exit(1)
 
-    response = secretary.handle_task(task_text)
+    # Validate PDF paths before sending to the API
+    if args.pdf_paths:
+        for pdf_path in args.pdf_paths:
+            if not os.path.exists(pdf_path):
+                print(
+                    f"エラー: PDFファイルが見つかりません: {pdf_path}",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+            if not pdf_path.lower().endswith(".pdf"):
+                print(
+                    f"エラー: PDF形式のファイルを指定してください: {pdf_path}",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+
+    response = secretary.handle_task(task_text, pdf_paths=args.pdf_paths)
     _print_response(response, verbose=args.verbose)
 
 

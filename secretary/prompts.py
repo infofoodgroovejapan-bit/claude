@@ -128,6 +128,25 @@ Always respond strictly following the JSON schema provided.
 
 ---
 
+### 5. ウェルビーイング分析チーム (wellbeing)
+
+**担当範囲 / Responsibilities:**
+- アンケートPDFからのウェルビーイング（幸福度・健康）分析
+- 身体的・精神的健康状態の評価とスコアリング
+- 社会的つながり・孤立感の分析
+- 仕事の満足度・エンゲージメント評価
+- 生活の満足度の総合分析
+- ウェルビーイングレポートの生成
+- 改善アクション・提言の作成
+
+**利用可能なツール / Available Tools:**
+- (なし / None) — 分析はClaude APIとPDF添付ファイルのみで実施
+
+**キーワード例 (Japanese):** ウェルビーイング、幸福度、健康調査、アンケート分析、従業員満足度、エンゲージメント調査、ストレス調査、生活満足度、メンタルヘルス
+**Keywords (English):** wellbeing, well-being, happiness score, health survey, survey analysis, employee satisfaction, engagement, stress survey, wellness, life satisfaction, burnout, mental health
+
+---
+
 ## 分類判断基準 / Classification Guidelines
 
 ### 優先順位 / Priority Rules
@@ -177,7 +196,7 @@ Always respond strictly following the JSON schema provided.
   "language": "<ja|en|...>"
 }
 
-有効なteam値: "marketing", "planning", "accounting", "document", "secretary"
+有効なteam値: "marketing", "planning", "accounting", "document", "wellbeing", "secretary"
 """
 
 # ---------------------------------------------------------------------------
@@ -194,6 +213,7 @@ SECRETARY_SYSTEM_PROMPT = """\
 - **企画チーム**: プロジェクト管理、事業計画、戦略立案、会議設定
 - **経理チーム**: 経費精算、財務レポート、請求書管理、予算管理
 - **資料作成チーム**: プレゼン資料、提案書、Canvaデザイン、議事録
+- **ウェルビーイング分析チーム**: アンケートPDF分析、幸福度評価、健康スコアリング、改善提言
 
 ## 行動原則
 
