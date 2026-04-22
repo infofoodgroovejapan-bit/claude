@@ -22,12 +22,14 @@ def _get_team_registry() -> dict:
         from teams.planning import PlanningAgent
         from teams.accounting import AccountingAgent
         from teams.document import DocumentAgent
+        from teams.wellbeing import WellbeingAgent
 
         _TEAM_REGISTRY = {
             "marketing": MarketingAgent(),
             "planning": PlanningAgent(),
             "accounting": AccountingAgent(),
             "document": DocumentAgent(),
+            "wellbeing": WellbeingAgent(),
         }
     return _TEAM_REGISTRY
 
@@ -38,7 +40,11 @@ class SecretaryAgent:
     def __init__(self, verbose: bool = False) -> None:
         self.verbose = verbose
 
-    def handle_task(self, task_text: str) -> AgentResponse:
+    def handle_task(
+        self,
+        task_text: str,
+        pdf_paths: list[str] | None = None,
+    ) -> AgentResponse:
         """Classify and delegate a task, returning the final AgentResponse."""
         if self.verbose:
             print("[秘書] タスクを受信しました。分類中...")
@@ -51,12 +57,18 @@ class SecretaryAgent:
                 f"(信頼度: {classification.confidence:.0%})\n"
                 f"[秘書] 理由: {classification.reasoning}"
             )
+            if pdf_paths:
+                print(f"[秘書] 添付PDF: {', '.join(pdf_paths)}")
 
         registry = _get_team_registry()
 
         if classification.team in registry:
             team_agent = registry[classification.team]
-            return team_agent.handle(task_text, context={"classification": classification})
+            return team_agent.handle(
+                task_text,
+                context={"classification": classification},
+                pdf_paths=pdf_paths,
+            )
 
         # Fallback: secretary handles it directly
         return self._handle_directly(task_text, classification)

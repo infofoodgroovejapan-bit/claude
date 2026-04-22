@@ -47,7 +47,12 @@ class BaseTeamAgent(ABC):
         """Execute a tool call and return the result as a string."""
         ...
 
-    def handle(self, task_text: str, context: dict | None = None) -> AgentResponse:
+    def handle(
+        self,
+        task_text: str,
+        context: dict | None = None,
+        pdf_paths: list[str] | None = None,
+    ) -> AgentResponse:
         """Entry point called by SecretaryAgent.
 
         Runs the agentic loop and returns an AgentResponse.
@@ -64,7 +69,14 @@ class BaseTeamAgent(ABC):
             }
         ]
 
-        messages: list[dict] = [{"role": "user", "content": task_text}]
+        if pdf_paths:
+            from tools.pdf import build_pdf_content_block
+            content: list[dict] = [build_pdf_content_block(p) for p in pdf_paths]
+            content.append({"type": "text", "text": task_text})
+        else:
+            content = [{"type": "text", "text": task_text}]
+
+        messages: list[dict] = [{"role": "user", "content": content}]
         tools = self._build_tools()
         tools_used: list[str] = []
 
