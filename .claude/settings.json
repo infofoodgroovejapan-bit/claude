@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "html2pptx": {
+      "type": "http",
+      "url": "https://html2pptx.app/mcp"
+    },
+    "html2pptx-local": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "-p",
+        "html2pptx-local-mcp@latest",
+        "html2pptx-mcp"
+      ]
+    }
+  }
+}
