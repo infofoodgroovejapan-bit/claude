@@ -44,15 +44,18 @@ Always respond strictly following the JSON schema provided.
 - SEO/SEM戦略
 - 顧客獲得施策（リードジェネレーション）
 - マーケティング指標の分析・レポート
+- note記事の作成・自動投稿の下書き作成・収益化（有料記事化、アフィリエイト、メンバーシップ導線）
 
 **利用可能なツール / Available Tools:**
 - Gmail: マーケティングメールの下書き・送信
 - Google Calendar: キャンペーンスケジュール管理・会議設定
 - Zoom: ウェビナー・オンラインイベントの設定
 - Canva: マーケティング資料・バナー・SNS用画像の作成
+- GitHub: note下書き原稿・収益台帳の保存
+- note収益化ツール: 価格提案、アフィリエイトリンク、有料記事フォーマット
 
-**キーワード例 (Japanese):** キャンペーン、広告、SNS、ブランド、マーケティング、宣伝、販促、集客、プロモーション、ニュースレター
-**Keywords (English):** campaign, advertising, social media, brand, marketing, promotion, newsletter, SEO, leads
+**キーワード例 (Japanese):** キャンペーン、広告、SNS、ブランド、マーケティング、宣伝、販促、集客、プロモーション、ニュースレター、note、note記事、有料記事、アフィリエイト、収益化、自動投稿
+**Keywords (English):** campaign, advertising, social media, brand, marketing, promotion, newsletter, SEO, leads, note.com, monetization, affiliate, paid article
 
 ---
 
@@ -94,13 +97,14 @@ Always respond strictly following the JSON schema provided.
 - 仕訳・勘定科目管理
 - 監査対応
 - 経費承認フローの管理
+- note収益（有料記事・アフィリエイト・メンバーシップ）の集計・月次レポーティング
 
 **利用可能なツール / Available Tools:**
-- Gmail: 財務レポートの送付・請求書の送受信
-- GitHub: 財務データ・レポートのバージョン管理
+- Gmail: 財務レポートの送付・請求書の送受信、note売上通知メールの確認
+- GitHub: 財務データ・レポートのバージョン管理、note収益台帳の読み書き
 
-**キーワード例 (Japanese):** 経費、精算、請求書、財務、会計、仕訳、給与、税務、予算、コスト、領収書、支払い
-**Keywords (English):** expense, invoice, financial report, accounting, budget, payroll, tax, cost, receipt, payment, audit
+**キーワード例 (Japanese):** 経費、精算、請求書、財務、会計、仕訳、給与、税務、予算、コスト、領収書、支払い、note収益、売上集計、収益レポート
+**Keywords (English):** expense, invoice, financial report, accounting, budget, payroll, tax, cost, receipt, payment, audit, note revenue, revenue report
 
 ---
 

@@ -45,6 +45,24 @@ TOOL_DEFINITIONS: list[dict] = [
         },
     },
     {
+        "name": "github_get_file_contents",
+        "description": (
+            "GitHubリポジトリ内のファイル内容を取得します / "
+            "Read a file's contents from a GitHub repository.\n"
+            "収益台帳など既存ファイルに追記する前に、現在の内容を読むために使用します。"
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "owner": {"type": "string"},
+                "repo": {"type": "string"},
+                "path": {"type": "string", "description": "File path in the repository"},
+                "branch": {"type": "string", "description": "Branch name (default: main)"},
+            },
+            "required": ["owner", "repo", "path"],
+        },
+    },
+    {
         "name": "github_create_or_update_file",
         "description": (
             "GitHubリポジトリにファイルを作成または更新します / "
@@ -77,6 +95,11 @@ def execute_tool(name: str, tool_input: dict) -> str:
         if name == "github_list_issues":
             from mcp__github import list_issues  # type: ignore
             result = list_issues(**tool_input)
+            return str(result)
+
+        if name == "github_get_file_contents":
+            from mcp__github import get_file_contents  # type: ignore
+            result = get_file_contents(**tool_input)
             return str(result)
 
         if name == "github_create_or_update_file":

@@ -20,4 +20,4 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          python main.py "Weekly wellbeing automation: search web for latest wellbeing articles, generate 6 Canva report slides, create 5 SNS posts with Canva images, save note article draft to GitHub, send Gmail digest"
+          python main.py "Weekly food wellbeing note monetization automation: search web for latest food wellbeing articles, write a note article with a free intro and a paid deep-dive body, suggest a price with note_suggest_pricing, add a relevant affiliate section with note_get_affiliate_links (include the PR disclosure), assemble the final draft with note_format_paid_article, save it to content/note/ on GitHub, append a row to data/note_revenue_ledger.csv via github_get_file_contents + note_build_ledger_row + github_create_or_update_file, generate 6 Canva report slides, create 5 SNS posts with Canva images promoting the free preview, and send a Gmail digest summarizing the article, price, and affiliate links used"
