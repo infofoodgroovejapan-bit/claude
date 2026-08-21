@@ -1,0 +1,24 @@
+name: note Revenue Monthly Report
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 毎月1日 00:00 UTC (JST 09:00) に実行
+    - cron: '0 0 1 * *'
+
+jobs:
+  run-revenue-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run monthly note revenue reconciliation
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python main.py "Monthly note revenue report: search Gmail for note purchase/support notification emails from the past month, read and tally them by article and revenue type (paid article / support / membership), cross-check against data/note_revenue_ledger.csv on GitHub, write a monthly summary report to reports/note_revenue/ on GitHub with per-article breakdown and month-over-month comparison, and create a Gmail draft summarizing the totals. Note explicitly that the reconciliation is based on email notifications since note has no revenue API."
